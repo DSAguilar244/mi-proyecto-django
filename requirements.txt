@@ -1,0 +1,3 @@
+requests
+# Añade aquí otras dependencias que tu proyecto necesite, por ejemplo:
+# Django>=3.2
