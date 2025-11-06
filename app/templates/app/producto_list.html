@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+    <style>
+        /* ====== RESET BÁSICO ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        /* ====== ESTILOS GENERALES ====== */
+        body {
+            background-color: #f3f4f7;
+            color: #333;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        /* ====== BOTONES ====== */
+        button, .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover, .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active, .btn:active {
+            transform: translateY(2px);
+        }
+
+        /* ====== CONTENEDOR PRINCIPAL ====== */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ====== CABECERA DE BOTONES ====== */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .btn.create-new {
+            background-color: #27ae60;
+        }
+
+        .btn.create-new:hover {
+            background-color: #1e8449;
+        }
+
+        /* ====== LISTA DE PRODUCTOS ====== */
+        ul.producto-lista {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.producto-lista li {
+            padding: 12px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        ul.producto-lista li:last-child {
+            border-bottom: none;
+        }
+
+        ul.producto-lista div {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Productos</h1>
+
+        <div class="button-group">
+            <a class="btn create-new" href="{% url 'producto_create' %}">➕ Crear nuevo producto</a>
+            <a class="btn" href="{% url 'producto_pdf' %}" target="_blank">📄 Generar PDF</a>
+        </div>
+
+        <ul class="producto-lista">
+            {% for producto in productos %}
+                <li>
+                    <strong>{{ producto.nombre }}</strong> - ${{ producto.precio }}
+                    <div>
+                        <a href="{% url 'producto_detail' pk=producto.pk %}">Ver</a> |
+                        <a href="{% url 'producto_update' pk=producto.pk %}">Editar</a> |
+                        <a href="{% url 'producto_delete' pk=producto.pk %}">Eliminar</a>
+                    </div>
+                </li>
+            {% empty %}
+                <li>No hay productos disponibles.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
