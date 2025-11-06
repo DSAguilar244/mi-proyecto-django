@@ -32,4 +32,15 @@ Pasos para desplegar en Vercel:
 
 Notas y alternativas:
 - Si quieres desplegar tu aplicación Django completa en Vercel, la integración es más compleja (ASGI/WSGI adaptadores, dependencias, manejo de archivos estáticos y base de datos). Prefiero ayudarte a preparar eso si quieres; dime si quieres intentar desplegar el Django entero o solo una función mínima.
-- Puedes cambiar el runtime en `vercel.json` a `python3.10` o `python3.11` si lo prefieres.
+ - Puedes cambiar el runtime en `vercel.json` a `python3.10` o `python3.11` si lo prefieres.
+ - Nota sobre el error "Function Runtimes must have a valid version": Vercel espera un identificador de runtime con versión (por ejemplo `vercel-python@0.1.0` o `now-php@1.0.0`) en el campo `functions` dentro de `vercel.json`.
+    - Si recibes ese error, abre `vercel.json` y sustituye el valor de `runtime` por un identificador con versión, por ejemplo:
+
+```json
+"functions": {
+   "api/index.py": { "runtime": "vercel-python@0.1.0" }
+}
+```
+
+   - Si Vercel devuelve un mensaje indicando otra cadena (por ejemplo una versión distinta de `vercel-python@...`), copia exactamente la cadena que Vercel sugiere en el dashboard o en el log de despliegue y pega ese valor en `vercel.json`.
+   - Si quieres, pégame el mensaje de error completo y actualizo `vercel.json` con la versión exacta requerida.
