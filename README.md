@@ -33,14 +33,23 @@ Pasos para desplegar en Vercel:
 Notas y alternativas:
 - Si quieres desplegar tu aplicación Django completa en Vercel, la integración es más compleja (ASGI/WSGI adaptadores, dependencias, manejo de archivos estáticos y base de datos). Prefiero ayudarte a preparar eso si quieres; dime si quieres intentar desplegar el Django entero o solo una función mínima.
  - Puedes cambiar el runtime en `vercel.json` a `python3.10` o `python3.11` si lo prefieres.
- - Nota sobre el error "Function Runtimes must have a valid version": Vercel espera un identificador de runtime con versión (por ejemplo `vercel-python@0.1.0` o `now-php@1.0.0`) en el campo `functions` dentro de `vercel.json`.
-    - Si recibes ese error, abre `vercel.json` y sustituye el valor de `runtime` por un identificador con versión, por ejemplo:
+ - Nota sobre errores relacionados con runtimes y paquetes no publicados:
+    - No uses identificadores inventados como `vercel-python@0.1.0`: Vercel intentará instalar un paquete con ese nombre y fallará si no existe en el registro.
+    - Para funciones Python lo habitual y compatible con Vercel es usar el runtime oficial, p. ej.:
 
 ```json
 "functions": {
-   "api/index.py": { "runtime": "vercel-python@0.1.0" }
+   "api/*.py": { "runtime": "python3.9" }
 }
 ```
 
-   - Si Vercel devuelve un mensaje indicando otra cadena (por ejemplo una versión distinta de `vercel-python@...`), copia exactamente la cadena que Vercel sugiere en el dashboard o en el log de despliegue y pega ese valor en `vercel.json`.
-   - Si quieres, pégame el mensaje de error completo y actualizo `vercel.json` con la versión exacta requerida.
+    - Si al desplegar Vercel te pide una cadena concreta (por ejemplo porque tu equipo usa una versión concreta de un builder), copia la cadena que aparece en los logs y la pegaremos en `vercel.json`.
+    - Alternativa (si tu proyecto requiere un builder explícito): usa la propiedad `builds` con `"use": "@vercel/python"` en `vercel.json`. Ejemplo:
+
+```json
+"builds": [
+   { "src": "api/*.py", "use": "@vercel/python" }
+]
+```
+
+    - Si sigues viendo errores, pégame el log completo del despliegue y lo corrijo aquí.
